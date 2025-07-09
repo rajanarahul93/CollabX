@@ -13,18 +13,27 @@ const app = express()
 
 app.use(express.json())
 
-app.use(cors())
+app.use(
+  cors({
+    origin: "https://collabx-nine.vercel.app",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);  
 
 app.use(express.static(path.join(__dirname, "public"))) // Serve static files
 
 const server = http.createServer(app)
 const io = new Server(server, {
-	cors: {
-		origin: "*",
-	},
-	maxHttpBufferSize: 1e8,
-	pingTimeout: 60000,
-})
+  cors: {
+    origin: "https://collabx-nine.vercel.app",
+    credentials: true,
+    methods: ["GET", "POST"],
+  },
+  maxHttpBufferSize: 1e8,
+  pingTimeout: 60000,
+});
+  
 
 let userSocketMap: User[] = []
 
